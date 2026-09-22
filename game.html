@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Board game reveal prototype</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="game.css">
+  <script src="config.js" defer></script>
+  <script src="map.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body class="game-page">
+  <header>
+    <h1>Map reveal prototype</h1>
+    <p>Enter biomes to reveal terrain and identify the surrounding landscape.</p>
+  </header>
+  <main class="game-layout">
+    <section class="preview" aria-label="Interactive map reveal prototype">
+      <div class="game-toolbar">
+        <div>
+          <h2>Explore the map</h2>
+          <p id="game-status" aria-live="polite">Choose a tile for the player.</p>
+        </div>
+        <div class="game-controls">
+          <label for="game-seed">Seed</label>
+          <input id="game-seed" type="number" min="0" max="4294967295" step="1" required>
+          <button id="reset-game" type="button">Reset game</button>
+        </div>
+      </div>
+      <div class="game-board-row">
+        <div id="game-map"></div>
+        <aside class="explorer-actions" aria-label="Explorer actions">
+          <h2>Player</h2>
+          <div id="game-player-tools" class="player-choice" role="group" aria-label="Active player"></div>
+          <button id="spawn-explorer" type="button">Spawn Explorer</button>
+          <p>Select a player, then place a new Explorer on any playable tile.</p>
+          <h2>Selected piece</h2>
+          <button id="reveal-adjacent" type="button" disabled>Reveal adjacent biomes</button>
+          <p>Fully reveal biomes represented by the hexes immediately adjacent to the Explorer. The Explorer remains in play.</p>
+          <button id="found-city" type="button" disabled>Found city</button>
+          <p>Claim the current tile and neighboring hexes as entered locations, revealing their biomes and identifying the landscape beside the new territory. The Explorer and any resource beneath it are consumed. Cities can only be founded on eligible land—not mountains, desert, tundra, or seas.</p>
+          <button id="expand-city" type="button" disabled>Expand city</button>
+          <p>With a city selected, claim a connected unclaimed tile within two steps. Mountains and desert cannot extend growth farther.</p>
+          <button id="build-wall" type="button">Build walls</button>
+          <p>Click near an edge of the active player's territory to add or remove a wall.</p>
+          <button id="cancel-tool" type="button" disabled>Cancel tool</button>
+          <p id="tool-status" aria-live="polite">Select or spawn a piece.</p>
+        </aside>
+      </div>
+      <p class="note">Hidden biomes are gray. Entering a biome reveals its terrain and resources and identifies neighboring biome types. Every city claim counts as an entered location, so no biome beside city territory remains unknown. Remote reveals do not propagate this fringe. Explorer movement is unrestricted in this prototype. Tundra and ocean remain visible.</p>
+    </section>
+  </main>
+</body>
+</html>

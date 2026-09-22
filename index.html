@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Board map studio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js" defer></script>
+  <script src="map.js" defer></script>
+</head>
+<body>
+  <header><h1>Board map studio</h1><p>Explore the shape and balance of your world.</p></header>
+  <main>
+    <form id="settings">
+      <h2>Board shape</h2>
+      <label for="columns">Width · cluster columns</label>
+      <input id="columns" type="number" min="2" max="40" step="2" required>
+      <small>Even numbers keep all triangles complete.</small>
+      <label for="bands">Height · cluster bands</label>
+      <input id="bands" type="number" min="1" max="24" step="1" required>
+      <small>Each band adds two hexagon rows, plus fixed tundra borders.</small>
+      <label for="seed">Seed</label>
+      <input id="seed" type="number" min="0" max="4294967295" step="1" required>
+      <h2>Biome balance</h2>
+      <p class="hint">Enter whole-number weights or use the sliders. Each target fraction is its weight divided by the total. Counts are rounded to whole clusters; reshuffling changes placement only. Zero excludes a biome.</p>
+      <div id="weights"></div>
+      <p id="error" role="alert"></p>
+      <div class="buttons"><button type="submit">Go</button><button id="reshuffle" type="button">Reshuffle</button></div>
+      <small>Changes apply when you press a button. Reshuffle applies your settings with a new seed.</small>
+    </form>
+    <section class="preview" aria-label="Map preview">
+      <div class="map-heading"><h2>Your map</h2><p id="summary" aria-live="polite"></p></div>
+      <div class="artwork-control">
+        <label for="artwork-strength">Artwork strength <output id="artwork-value" for="artwork-strength"></output></label>
+        <input id="artwork-strength" type="range" min="0" max="100" step="1">
+        <p class="hint">Solid biome colors at 0%; original artwork at 100%. Updates the appearance immediately.</p>
+      </div>
+      <div class="territory-tools" aria-label="Territory painting">
+        <h2>Paint territory</h2>
+        <div class="artwork-control">
+          <label for="territory-fade">Territory background fade <output id="territory-fade-value" for="territory-fade"></output></label>
+          <input id="territory-fade" type="range" min="0" max="100" step="1">
+          <p class="hint">0% keeps the biome unchanged; 100% makes claimed tile backgrounds white. Player rings and borders stay fully visible.</p>
+        </div>
+        <div id="player-tools" class="buttons" role="group" aria-label="Player or eraser"></div>
+        <p class="hint">Choose a color, then drag across individual hexagons. Painting replaces any previous owner. Ocean and tundra can be claimed too.</p>
+        <div class="buttons"><button type="button" id="undo-territory">Undo</button><button type="button" id="clear-player">Clear selected player</button><button type="button" id="clear-territory">Clear all territory</button></div>
+        <p class="hint">Biome changes preserve territory. Resizing keeps claims on surviving coordinates. Territory lasts until you clear it or reload the page.</p>
+        <p id="territory-status" aria-live="polite"></p>
+      </div>
+      <div id="map"></div>
+      <div id="legend" aria-label="Generated biome counts"></div>
+      <p class="note">Thick borders mark three-tile clusters. White tiles are tundra. Dark ocean tiles form a one-tile buffer on each side, including the four corners, so tundra cannot bridge the ocean.</p>
+    </section>
+  </main>
+</body>
+</html>
